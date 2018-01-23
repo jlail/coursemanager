@@ -4,11 +4,27 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+var bluebird = require('bluebird');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var api = require('./routes/api.route');
 
 var app = express();
+
+var mongoURL = 'mongodb://127.0.0.1:27017/coursemanager';
+mongoose.Promise = bluebird
+mongoose.connect(mongoURL)
+	.then(()=> {console.log('Connected to Mongo at ' + mongoURL)})
+	.catch(()=> {console.log('Error connecting to mongo at ' + mongoURL)})
+
+app.use(function(req, res, next){
+	res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+	next();
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -24,6 +40,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/api', api);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
