@@ -595,7 +595,7 @@ var CourseService = /** @class */ (function () {
         this.http = http;
         this.courseSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_Subject__["a" /* Subject */]();
         this.courseArray$ = this.courseSource.asObservable();
-        this.api_url = "http://localhost:3000";
+        this.api_url = "http://ec2-18-216-44-63.us-east-2.compute.amazonaws.com:3000";
         this.courseUrl = this.api_url + "/api/courses";
     }
     CourseService.prototype.createCourse = function (course) {

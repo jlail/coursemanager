@@ -13,7 +13,7 @@ export class CourseService {
 	private courseSource = new Subject<Course[]>();
 	courseArray$ = this.courseSource.asObservable();
 
-	api_url = `http://localhost:3000`;
+	api_url = `http://ec2-18-216-44-63.us-east-2.compute.amazonaws.com:3000`;
 	courseUrl = `${this.api_url}/api/courses`;
 
 	constructor(private http: HttpClient){}
