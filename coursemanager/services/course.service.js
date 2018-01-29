@@ -10,9 +10,7 @@ exports.createCourse = async function(course){
 	});
 
 	try {
-		var savedCourse = await newCourse.save();
-
-		return savedCourse;
+		return await newCourse.save();
 	} catch (e) {
 		throw Error('Error creating new course: ', e);
 	}
@@ -24,20 +22,17 @@ exports.getCourses = async function(query, page, limit){
 		limit
 	}
 
-	console.log("QUERY: ", query);
-
 	try {
+		// Will not match partial strings for now, need to search with regex for that
 		if (query.search){
 			var searchQuery = {
 				$text: {
 					$search: query.search
 				}
 			}
-			var courses = await Course.paginate(searchQuery, options);
-		} else {
-			var courses = await Course.paginate(query, options);
-		}		
-		return courses;
+			return await Course.paginate(searchQuery, options);
+		}
+		return await Course.paginate(query, options);
 	} catch (e) {
 		throw Error('Error paginating courses');
 	}
@@ -45,29 +40,10 @@ exports.getCourses = async function(query, page, limit){
 
 exports.updateCourse = async function(course){
 	var id = course.id;
-	try {
-		var courseToUpdate = await Course.findOne({_id: mongoose.Types.ObjectId(id)});
-	} catch (e) {
-		throw Error('Error finding course in update');
-	}
+	delete course[id];
+	console.log("COURSE: ", course);
 
-	if (!courseToUpdate){
-		return false;
-	}
-
-	for (dataField in course){
-		if (course[dataField] != null){
-			courseToUpdate[dataField] = course[dataField];
-		}
-	}
-
-	try {
-		var savedCourse = await Course.update(courseToUpdate);
-		return savedCourse;
-	} catch (e) {
-		console.log(e.message);
-		throw Error('Error while saving in update');
-	}
+	return await Course.findByIdAndUpdate(course.id, course);
 }
 
 exports.deleteCourse = async function(id){

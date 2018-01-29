@@ -58,9 +58,11 @@ export class EditCourseComponent implements OnInit {
 		this.editCourse(course);
 	}
 
+	clear() {
+  	this.courseService.getCourses(null).subscribe();
+	}
 
   search() {
-  	console.log("SEARCH CALLED");
   	this.courseService.getCourses(this.params).subscribe();
   }
 }
