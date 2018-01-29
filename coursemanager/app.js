@@ -20,7 +20,7 @@ mongoose.connect(mongoURL)
 	.catch(()=> {console.log('Error connecting to mongo at ' + mongoURL)})
 
 app.use(function(req, res, next){
-	res.header("Access-Control-Allow-Origin", "98.29.212.24");
+	res.header("Access-Control-Allow-Origin", "http://localhost:4200");
 	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
 	next();
@@ -38,7 +38,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/*', index);
+app.use('/', index);
 app.use('/users', users);
 app.use('/api', api);
 
