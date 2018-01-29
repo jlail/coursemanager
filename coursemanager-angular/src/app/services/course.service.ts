@@ -4,11 +4,15 @@ import { Observable } from 'rxjs/Rx';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Response } from '@angular/http';
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
 
 import 'rxjs/add/operator/map';
 
 @Injectable()
 export class CourseService {
+	private courseSource = new Subject<Course[]>();
+	courseArray$ = this.courseSource.asObservable();
+
 	api_url = `http://localhost:3000`;
 	courseUrl = `${this.api_url}/api/courses`;
 
@@ -18,19 +22,22 @@ export class CourseService {
 		return this.http.post(`${this.courseUrl}`, course);
 	}
 
-	getCourses(): Observable<Course[]>{
+	getCourses(params: string[]): Observable<Course[]>{
+		if (params) {
+			return this.http.get(`${this.courseUrl}?search=${params}`)
+				.map(res => {
+					console.log("In searchcourses");
+					this.courseSource.next(res["data"].docs as Course[]);
+					return res["data"].docs as Course[];
+				});
+		}
 		return this.http.get(`${this.courseUrl}`)
 			.map(res => {
+				this.courseSource.next(res["data"].docs as Course[]);
 				return res["data"].docs as Course[];
 			});
 	}
 
-	searchCourses(params: string[]): Observable<Course[]>{
-		return this.http.get(`${this.courseUrl}?search=${params}`)
-			.map(res => {
-				return res["data"].docs as Course[];
-			});
-	}
 
 	editCourse(course: Course){
 		console.log("COURSE IN SERVICE: ", course);

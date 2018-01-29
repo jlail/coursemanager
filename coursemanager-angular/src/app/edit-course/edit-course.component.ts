@@ -6,23 +6,29 @@ import { CourseService } from '../services/course.service';
 @Component({
   selector: 'app-edit-course',
   templateUrl: './edit-course.component.html',
-  styleUrls: ['./edit-course.component.scss']
+  styleUrls: ['./edit-course.component.scss'],
+  providers: [CourseService]
 })
 export class EditCourseComponent implements OnInit {
-	constructor(private courseService: CourseService ){
-
-	}
 	title = 'Course Manager';
 	public newCourse: Course = new Course();
-	courseList: Course[];
+	courseList: Course[] = new Array<Course>();
 	editCourseList: Course[] = [];
-	
+	params: string[];
 
+	constructor(private courseService: CourseService ){
+  	courseService.courseArray$.subscribe(
+  		courses => {
+  			this.courseList = courses;
+  			console.log("INSIDE EDIT: ", this.courseList);
+  		}	
+		)
+	}
+	
 	ngOnInit(): void {
-		this.courseService.getCourses()
+		this.courseService.getCourses(null)
 			.subscribe(courses => {
 				this.courseList = courses;
-				console.log(courses);
 		})
 	}
 
@@ -51,4 +57,10 @@ export class EditCourseComponent implements OnInit {
 	updateCourse(course: Course){
 		this.editCourse(course);
 	}
+
+
+  search() {
+  	console.log("SEARCH CALLED");
+  	this.courseService.getCourses(this.params).subscribe();
+  }
 }

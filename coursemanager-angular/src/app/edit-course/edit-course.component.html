@@ -4,6 +4,10 @@
 
     <div class="courses" *ngIf="courseList">
       <h5>Courses</h5>
+    <form class="form-inline my-2 my-lg-0">
+      <input name="search-field" class="form-control mr-sm-2" placeholder="Search" aria-label="Search" type="text" [(ngModel)]="params">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="search()">Search</button>
+    </form>
       <table class="table">
         <thead class="h">
           <tr class="h">
@@ -22,7 +26,7 @@
 	            <td>{{course.address.number}} {{course.address.street}}<br>{{course.address.city}} {{course.address.state}} {{course.address.zip}}</td>
 	            <td>{{course.notes}}</td>
 	            <td>
-	    					<tag-input [(ngModel)]="course.tags" (click)="updateCourse(course)"></tag-input>
+	    					<tag-input [(ngModel)]="course.tags" (blur)="updateCourse(course)"></tag-input>
 	            </td>
 	            <td>
 	              <button class="btn btn-info" (click)="editCourse(course)">
@@ -48,7 +52,7 @@
       					<textarea name="notes" id="notes" [(ngModel)]="course.notes" placeholder="" class="form-control"></textarea>
       				</td>
       				<td>
-    						<tag-input id="tags" name="tags" [(ngModel)]="course.tags" (click)=updateCourse(course)></tag-input>	
+    						<tag-input id="tags" name="tags" [(ngModel)]="course.tags" (blur)=updateCourse(course)></tag-input>	
     					</td>
 	            <td>
 	              <button class="btn btn-success" (click)="updateCourse(course)">
