@@ -24,8 +24,19 @@ exports.getCourses = async function(query, page, limit){
 		limit
 	}
 
+	console.log("QUERY: ", query);
+
 	try {
-		var courses = await Course.paginate(query, options);
+		if (query.search){
+			var searchQuery = {
+				$text: {
+					$search: query.search
+				}
+			}
+			var courses = await Course.paginate(searchQuery, options);
+		} else {
+			var courses = await Course.paginate(query, options);
+		}		
 		return courses;
 	} catch (e) {
 		throw Error('Error paginating courses');
@@ -34,10 +45,8 @@ exports.getCourses = async function(query, page, limit){
 
 exports.updateCourse = async function(course){
 	var id = course.id;
-	console.log("ID:::::::::::::::::", course);
 	try {
 		var courseToUpdate = await Course.findOne({_id: mongoose.Types.ObjectId(id)});
-		console.log("COURSE: ", courseToUpdate);
 	} catch (e) {
 		throw Error('Error finding course in update');
 	}
@@ -63,9 +72,7 @@ exports.updateCourse = async function(course){
 
 exports.deleteCourse = async function(id){
 	try {
-		console.log("ID:", id);
 		var deleted = await Course.remove({_id: mongoose.Types.ObjectId(id)});
-		console.log("DELETED: ", deleted);
 		if(deleted.n === 0){
 			throw Error("Could not delete course");
 		}

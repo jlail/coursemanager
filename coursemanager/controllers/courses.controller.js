@@ -26,8 +26,14 @@ exports.createCourse = async function(req, res, next){
 exports.getCourses = async function(req, res, next){
 	var page = req.query.page ? req.query.page : 1;
 	var limit = req.query.limit ? req.query.limit : 10;
+	var courses;
+	console.log("REQ QUERY: ", req.query);
 	try {
-		var courses = await CourseService.getCourses({}, page, limit);
+		if (req.query.search){
+			courses = await CourseService.getCourses(req.query, page, limit);
+		} else {
+			courses = await CourseService.getCourses({}, page, limit);
+		}
 		return res.status(200).json({
 			status: 200, 
 			data: courses, 

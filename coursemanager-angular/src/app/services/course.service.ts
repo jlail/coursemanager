@@ -25,7 +25,15 @@ export class CourseService {
 			});
 	}
 
+	searchCourses(params: string[]): Observable<Course[]>{
+		return this.http.get(`${this.courseUrl}?search=${params}`)
+			.map(res => {
+				return res["data"].docs as Course[];
+			});
+	}
+
 	editCourse(course: Course){
+		console.log("COURSE IN SERVICE: ", course);
 		return this.http.put(`${this.courseUrl}`, course);
 	}
 

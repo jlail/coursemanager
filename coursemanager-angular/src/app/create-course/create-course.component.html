@@ -27,10 +27,10 @@
 		      <input name="city" id="city" [(ngModel)]="newCourse.address.city" placeholder="Sometown" class="form-control">
 		    </div>
 		    <div class="col-sm-2">
-		      <input name="state" id="state" [(ngModel)]="newCourse.address.state" placeholder="OH" class="form-control">
+		      <input name="state" id="state" [(ngModel)]="newCourse.address.state" placeholder="OH" class="form-control" (blur)="getGeocode()">
 		    </div>
 		    <div class="col-sm-3">
-		      <input name="zip" id="zip" [(ngModel)]="newCourse.address.zip" placeholder="12345" class="form-control">
+		      <input name="zip" id="zip" [(ngModel)]="newCourse.address.zip" placeholder="12345" class="form-control" (blur)="getGeocode()">
 		    </div>
 		  </div>
 		  <div class="row">
@@ -50,9 +50,9 @@
 		    <div class="col-sm-9">
 		      <button type="submit" class="btn btn-primary" (click)="createCourse()">Add Course</button>
 		    </div>
-		    
+
 		    <div class="col-sm-3">
-			    <agm-map [latitude]="lat" [longitude]="lng">
+			    <agm-map [latitude]="lat" [longitude]="lng" [zoom]=13>
 		    		<agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
 			    </agm-map>
 			  </div>

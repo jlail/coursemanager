@@ -4,27 +4,30 @@
 
     <div class="courses" *ngIf="courseList">
       <h5>Courses</h5>
-      <table class="table col-sm-12">
+      <table class="table">
         <thead class="h">
           <tr class="h">
-            <th class="h col-sm-2">Name</th>
-            <th class="h col-sm-3">Address</th>
-            <th class="h col-sm-4">Notes</th>
-            <th class="h col-sm-2">Tags</th>
-            <th class="h col-sm-1"></th>
+            <th class="h">Name</th>
+            <th class="h">Address</th>
+            <th class="h">Notes</th>
+            <th class="h">Tags</th>
+            <th class="h"></th>
           </tr>
         </thead>
         <tbody>
           
-          <tr class="course" (dblclick)="editCourse(course)" *ngFor="let course of courseList">
+          <tr class="course col-lg-12" (dblclick)="editCourse(course)" *ngFor="let course of courseList">
           	<ng-container *ngIf="!editCourseList.includes(course); else elseBlock">
 	            <td>{{course.name}}</td>
 	            <td>{{course.address.number}} {{course.address.street}}<br>{{course.address.city}} {{course.address.state}} {{course.address.zip}}</td>
 	            <td>{{course.notes}}</td>
 	            <td>
-	    					<tag-input id="tags" name="tags" [(ngModel)]="course.tags" (blur)="updateCourse(course)"></tag-input>
+	    					<tag-input [(ngModel)]="course.tags" (click)="updateCourse(course)"></tag-input>
 	            </td>
 	            <td>
+	              <button class="btn btn-info" (click)="editCourse(course)">
+	                  <i  class="fa fa-pencil"></i>
+                </button>
 	              <button class="btn btn-danger" (click)="deleteCourse(course)">
 	                  <i  class="fa fa-trash"></i>
                 </button>
@@ -45,7 +48,7 @@
       					<textarea name="notes" id="notes" [(ngModel)]="course.notes" placeholder="" class="form-control"></textarea>
       				</td>
       				<td>
-    						<tag-input id="tags" name="tags" [(ngModel)]="course.tags" (blur)=updateCourse(course)></tag-input>	
+    						<tag-input id="tags" name="tags" [(ngModel)]="course.tags" (click)=updateCourse(course)></tag-input>	
     					</td>
 	            <td>
 	              <button class="btn btn-success" (click)="updateCourse(course)">
