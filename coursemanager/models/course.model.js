@@ -4,14 +4,16 @@ var mongoosePaginate = require('mongoose-paginate');
 var courseSchema = new mongoose.Schema({
 	name	: String,
 	address	: {
-		number	: String,
 		street	: String,
 		city	: String,
 		state	: String,
 		zip		: Number
 	}, 
 	notes	: String,
-	tags	: [String]
+	tags	: [{
+		display: String,
+		value: String
+	}]
 });
 
 courseSchema.plugin(mongoosePaginate);

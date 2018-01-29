@@ -1,0 +1,62 @@
+<form>
+  <div class="form-row">
+  	<div class="col-sm-12">
+  		<div class="row">
+		    <div class="col-sm-9">
+		    	<h5>Enter New Course Information</h5>
+		    </div>
+		  </div>
+		  <div class="row">
+		    <div class="col-sm-9">
+		    	<label for="name">Course Name</label>
+		      <input type="text" name="name" id="name" [(ngModel)]="newCourse.name" placeholder="" class="form-control">
+		    </div>
+		  </div>
+		  <div class="row">
+		    <div class="col-sm-9">
+		    	<label for="number">Address</label>
+		    </div>
+		  </div>
+		  <div class="row">
+		    <div class="col-sm-9">
+		      <input name="street" id="street" [(ngModel)]="newCourse.address.street" placeholder="1234 Main St." class="form-control">
+		    </div>
+		  </div>
+		  <div class="row">
+		    <div class="col-sm-4">
+		      <input name="city" id="city" [(ngModel)]="newCourse.address.city" placeholder="Sometown" class="form-control">
+		    </div>
+		    <div class="col-sm-2">
+		      <input name="state" id="state" [(ngModel)]="newCourse.address.state" placeholder="OH" class="form-control">
+		    </div>
+		    <div class="col-sm-3">
+		      <input name="zip" id="zip" [(ngModel)]="newCourse.address.zip" placeholder="12345" class="form-control">
+		    </div>
+		  </div>
+		  <div class="row">
+		    <div class="col-sm-9">
+		    	<label for="notes">Notes</label>
+		      <textarea name="notes" id="notes" [(ngModel)]="newCourse.notes" placeholder="" class="form-control"></textarea>
+		    </div>
+		  </div>
+
+		  <div class="row">
+		    <div class="col-sm-9">
+		    	<label for="tags">Tags</label>
+		    	<tag-input name="tags" [(ngModel)]="newCourse.tags"></tag-input>
+		    </div>
+		  </div>
+		  <div class="row">
+		    <div class="col-sm-9">
+		      <button type="submit" class="btn btn-primary" (click)="createCourse()">Add Course</button>
+		    </div>
+		    
+		    <div class="col-sm-3">
+			    <agm-map [latitude]="lat" [longitude]="lng">
+		    		<agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+			    </agm-map>
+			  </div>
+		  </div>
+	  </div>
+	</div>
+</form>
